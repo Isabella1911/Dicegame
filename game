@@ -1,0 +1,63 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class JuegoDeDados {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        
+        int totalPoints = 0;
+        int round = 0;
+        
+        System.out.println("Bienvenido al juego de dados!");
+        
+        while (totalPoints < 100) {
+            round++;
+            int diceCount;
+            do {
+                System.out.println("Selecciona la cantidad de dados a lanzar (1 o 3):");
+                diceCount = scanner.nextInt();
+            } while (diceCount != 1 && diceCount != 3);
+            
+            int roundPoints = 0;
+            boolean loseRound = false;
+            
+            for (int i = 0; i < diceCount; i++) {
+                int diceValue = random.nextInt(6) + 1; // Valor de la cara del dado (1-6)
+                System.out.println("Dado " + (i + 1) + ": " + diceValue);
+                
+                if (diceValue == 1) {
+                    loseRound = true;
+                    break;
+                } else {
+                    roundPoints += diceValue;
+                }
+            }
+            
+            if (!loseRound) {
+                totalPoints += roundPoints;
+                System.out.println("Puntos en esta ronda: " + roundPoints);
+                System.out.println("Puntos totales: " + totalPoints);
+                
+                if (totalPoints >= 100) {
+                    System.out.println("¡Ganaste el juego!");
+                } else if (roundPoints >= 20) {
+                    System.out.println("Has alcanzado 20 puntos en esta ronda. Fin del juego.");
+                } else {
+                    System.out.println("Deseas continuar? (s/n)");
+                    char continueChoice = scanner.next().charAt(0);
+                    if (continueChoice == 'n' || continueChoice == 'N') {
+                        System.out.println("Fin del juego.");
+                        break;
+                    }
+                }
+            } else {
+                System.out.println("Obtuviste un 1 en uno de los dados. Puntos de la ronda: 0");
+                System.out.println("Puntos totales: " + totalPoints);
+            }
+        }
+        
+        System.out.println("¡Gracias por jugar!");
+    }
+}
