@@ -1,0 +1,72 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class JuegoPIG {
+
+    public static int jugarTurno(int diceCount, Random random) {
+        int roundPoints = 0;
+
+        for (int i = 0; i < diceCount; i++) {
+            int diceValue = random.nextInt(6) + 1;
+            System.out.println("Dado " + (i + 1) + ": " + diceValue);
+            // Si uno de los jugadores saca 1, se reinicia el conteo de puntos
+            if (diceValue == 1) {
+                roundPoints = 0;
+                System.out.println("Se reinició el conteo de puntos.");
+                return roundPoints;
+            } else {
+                roundPoints += diceValue;
+            }
+        }
+
+        // Punteo total
+        System.out.println("Puntos: " + roundPoints);
+        return roundPoints;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
+        int totalPoints = 0;
+        int jugador2 = 0;
+        int diceCount;
+
+        System.out.println("DADOS RANDOOOM :3");
+
+        while (totalPoints < 100 && jugador2 < 100) {
+            // Desarrollo jugador
+            System.out.println("Turno Player:");
+            do {
+                System.out.println("Selecciona la cantidad de dados a lanzar (1, 2 o 3):");
+                diceCount = scanner.nextInt();
+            } while (diceCount < 1 || diceCount > 3);
+
+            int roundPoints = jugarTurno(diceCount, random);
+            if (roundPoints > 0) {
+                totalPoints += roundPoints;
+                System.out.println("Total: " + totalPoints);
+                if (totalPoints >= 100) {
+                    System.out.println("You're win! uwu"); // si llega a 100 puntos el jugador gana...
+                    break;
+                }
+            }
+
+            // Desarrollo computadora
+            System.out.println("Turno desktop:");
+            diceCount = random.nextInt(3) + 1; // escoge de forma aleatoria cuántos dados tirar
+
+            roundPoints = jugarTurno(diceCount, random);
+            if (roundPoints > 0) {
+                jugador2 += roundPoints;
+                System.out.println("Total: " + jugador2);
+                if (jugador2 >= 100) {
+                    System.out.println("The computer's won! o.o"); // si su punteo es = a 100 la compu gana
+                    break;
+                }
+            }
+        }
+
+        System.out.println("¡Gracias por participar!"); // fin
+    }
+}
